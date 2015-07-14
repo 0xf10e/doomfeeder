@@ -8,6 +8,7 @@ import (
     "html/template"
     "io/ioutil"
     "net/http"
+    "math/rand"
     "strings"
     "time"
 )
@@ -54,16 +55,16 @@ func main() {
         fmt.Printf("error: %v", err)
         return
     }
-    //fmt.Printf("XMLName: %#v\n", feed.XMLName)
     fmt.Println(feed.Title)
     fmt.Println(strings.Repeat("=", len(feed.Title)))
     fmt.Println(feed.Description, "\n")
-    time.Sleep(time.Duration(len(feed.Description)) * 50 * time.Millisecond)
+    time.Sleep(time.Duration(len(feed.Description)) * 30 * time.Millisecond)
 
-    for _, item := range feed.ItemList{
+    for _, i := range rand.Perm(len(feed.ItemList)) {
+        item := feed.ItemList[i]
         fmt.Println(item.PubDate)
         fmt.Println(strings.Repeat("-", len(item.PubDate)))
         fmt.Println(item.Description, "\n")
-        time.Sleep(time.Duration(len(item.Description)) * 25 * time.Millisecond)
+        time.Sleep(time.Duration(len(item.Description)) * 30 * time.Millisecond)
     }
 }
